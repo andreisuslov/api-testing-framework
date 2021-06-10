@@ -16,7 +16,7 @@ Response response =
 response.print(); // prints out the response body 
 ```
 
-1. Verify the status code – we verify whether an actual response is equal to expected.
+2. Verify the status code – we verify whether an actual response is equal to expected.
 
 ```
     int expected = 200;
@@ -24,7 +24,7 @@ response.print(); // prints out the response body
     response.prettyPrint();
 ```
 
-1. Do validations and assertions. For that purpose, I use Junit Assertions. And because we are using JSON format, use `.jsonPath()` method to get values from the response. Inside that method there are different other methods to get different values, such as: `.getString*()`, `.getList()`, `.getBoolean()`, `.getInt()`. 
+3. Do validations and assertions. For that purpose, I use Junit Assertions. And because we are using JSON format, use `.jsonPath()` method to get values from the response. Inside that method there are different other methods to get different values, such as: `.getString*()`, `.getList()`, `.getBoolean()`, `.getInt()`. 
 
 ```
 String actualFirstName = response.jsonPath().getString("firstname");
@@ -97,6 +97,7 @@ assertEquals(expectedFirstName, actualFirstName,
 ## **Automating PUT**
 `PUT` method is used to update the existing resource. It does not update just some fields in existing resources, it updates the full resource, so basically `PUT` means **replace**. It is similar to the `POST` method as it requires the request body with all fields. The difference is the ID in the URL and the need for authentication.
 
+1. Create JSON body:
 ```
 JSONObject body = new JSONObject();
 body.put("firstname", "Andrei");
@@ -216,7 +217,7 @@ Assertions.assertEquals(expectedCheckIn, actualCheckIn,
 
 ## **Automating DELETE**
 1. Create JSON body.
-1. Get ID of the created JSON object.
+2. Get ID of the created JSON object.
 ```
 int bookingid = responseCreate.jsonPath().getInt("bookingid");
 ```
