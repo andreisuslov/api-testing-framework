@@ -199,7 +199,7 @@ Response responseUpdate = RestAssured.given()
   .patch("https://restful-booker.herokuapp.com/booking/" + bookingId);
 ```
 
-1. Do validations and assertions.
+5. Do validations and assertions.
 
 ```
 String actualFirstName = 
