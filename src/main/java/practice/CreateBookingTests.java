@@ -5,12 +5,12 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import utilities.HelperMethods;
 
-public class CreateBookingTests {
+public class CreateBookingTests extends HelperMethods{
 
     @Test
     public void createBookingTest() {
         // create booking
-        Response response = HelperMethods.createBooking();
+        Response response = createBooking();
         response.prettyPrint();
 
         // Verifications

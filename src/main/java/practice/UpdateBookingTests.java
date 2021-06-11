@@ -12,13 +12,13 @@ import utilities.HelperMethods;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class UpdateBookingTests {
+public class UpdateBookingTests extends HelperMethods{
 
     @Test
     public void updateBookingTests() {
 
         // Create JSON body
-        Response responseCreate = HelperMethods.createBooking();
+        Response responseCreate = createBooking();
         responseCreate.print();
 
         JSONObject body = new JSONObject();

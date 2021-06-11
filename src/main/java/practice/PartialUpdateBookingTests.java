@@ -8,13 +8,13 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import utilities.HelperMethods;
 
-public class PartialUpdateBookingTests {
+public class PartialUpdateBookingTests extends HelperMethods {
 
     @Test
     public void updateBookingTests() {
 
         // Create JSON body
-        Response responseCreate = HelperMethods.createBooking();
+        Response responseCreate = createBooking();
         responseCreate.prettyPrint();
 
         JSONObject body = new JSONObject();

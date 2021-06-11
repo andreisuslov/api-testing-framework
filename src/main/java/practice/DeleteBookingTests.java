@@ -8,13 +8,13 @@ import utilities.HelperMethods;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
-public class DeleteBookingTests {
+public class DeleteBookingTests extends HelperMethods {
 
     @Test
     public void deleteBookingTests() {
 
         // Create JSON body
-        Response responseCreate = HelperMethods.createBooking();
+        Response responseCreate = createBooking();
         responseCreate.prettyPrint();
 
         // Get bookingId of new booking

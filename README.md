@@ -16,6 +16,13 @@ Response response =
 response.print(); // prints out the response body 
 ```
 
+Using the more advanced approach, we may introduce variable
+`rs` which stands for request specification.
+``` 
+RequestSpecification rs =
+    new RequestSpecBuilder().
+        setBaseUri("https://restful-booker.herokuapp.com").build();
+``` 
 2. Verify the status code – we verify whether an actual response is equal to expected.
 
 ```
@@ -30,7 +37,7 @@ response.print(); // prints out the response body
 String actualFirstName = response.jsonPath().getString("firstname");
 String expectedFirstName = "Jim";
 
-*assertEquals(expectedFirstName, actualFirstName, 
+assertEquals(expectedFirstName, actualFirstName, 
 "The name in the response is " + actualFirstName 
 + ", and it's supposed to be " + expectedFirstName);
 ```
@@ -66,6 +73,7 @@ body.put("depositpaid", false);
 ```
 If we have a sub-object that contains some info, we need to create another JSON object and put it into our main JSON body.
 
+1. Create JSON body:
 ```
 JSONObject bookingDates = new JSONObject();
 bookingDates.put("checkin", "2021-03-13");

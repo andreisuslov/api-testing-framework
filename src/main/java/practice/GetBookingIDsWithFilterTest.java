@@ -2,7 +2,9 @@ package practice;
 
 import cucumber.api.java.cs.A;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -15,6 +17,7 @@ public class GetBookingIDsWithFilterTest {
     @Test
     public void getBookingIDsWithFilterTest() {
         // get response with booking id's
+
         Response response =
                 RestAssured.get("https://restful-booker.herokuapp.com/booking/6");
         response.print();
