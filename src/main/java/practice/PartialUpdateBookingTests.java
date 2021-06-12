@@ -27,11 +27,11 @@ public class PartialUpdateBookingTests extends HelperMethods {
         // get booking id of the new booking
         int bookingId = responseCreate.jsonPath().getInt("bookingid");
 
-        // Get the response using booking ID
-        Response responseUpdate = RestAssured.given()
+        // Get the response using booking ID and authentication credentials
+        Response responseUpdate = RestAssured.given(rs)
                 .auth().preemptive().basic("admin", "password123")
                 .contentType(ContentType.JSON).body(body.toString())
-                .patch("https://restful-booker.herokuapp.com/booking/" + bookingId);
+                .patch("/booking/" + bookingId);
 
         // Verify All fields
         int expected = 200;

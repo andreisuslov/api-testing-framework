@@ -16,7 +16,7 @@ public class HelperMethods {
     // I created createBooking() method so if I want to
     // update or delete objects in the future, I can just create my own
     // object to make sure no one else is using it
-    protected Response createBooking() {
+    public Response createBooking() {
         // Create JSON body
         JSONObject body = new JSONObject();
         body.put("firstname", "Andrei");
@@ -37,7 +37,9 @@ public class HelperMethods {
     }
 
     @Before
-    protected void setUp() {
+    public void setUp() {
+        // We need to create Request Specification variable using Request Spec Builder
+        // to set up Base URI in order to avoid redundancy and improve re-usability.
         rs = new RequestSpecBuilder().
                 setBaseUri("https://restful-booker.herokuapp.com").build();
     }

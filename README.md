@@ -7,6 +7,15 @@
 
 Rest Assured is one of the many Java HTTP clients. It provides us with **BDD syntax:** **given** (headers), **when** (endpoint, HTTP method type,  body), **then** (validate the response code and body). Using this library, we can perform automation of `get`, `post`, `put`, `patch`, and `delete` request methods.
 
+##Path vs Query parameters
+**Path parameters** are used to identify a specific resource.
+```
+/booking/{bookingID}
+```
+**Query parameters** are used to filter that specific resource.
+```
+/booking/{bookingID}?firstname=Andrei
+```
 ## **Automating GET**
 In my API testing approach, I perform the following steps:
 
@@ -20,10 +29,22 @@ response.print(); // prints out the response body
 
 Using the more advanced approach, we may introduce variable
 `rs` which stands for request specification.
+We create Request Specification variable using Request Spec Builder
+to set up Base URI in order to avoid redundancy and improve re-usability.
 ``` 
 RequestSpecification rs =
     new RequestSpecBuilder().
         setBaseUri("https://restful-booker.herokuapp.com").build();
+``` 
+So this way,
+every time we are using BDD syntax, we can place that `rs` variable into the `.given()` pre-condition part:
+``` 
+given().
+    spec(rs).
+when().
+    get("/your-endpoint").
+then().
+    assertThat().statusCode(200);
 ``` 
 2. Verify the status code – we verify whether an actual response is equal to expected.
 

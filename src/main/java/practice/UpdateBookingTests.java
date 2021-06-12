@@ -37,10 +37,10 @@ public class UpdateBookingTests extends HelperMethods{
         int bookingId = responseCreate.jsonPath().getInt("bookingid");
 
         // Get the response using booking ID
-        Response responseUpdate = RestAssured.given()
+        Response responseUpdate = RestAssured.given(rs)
                 .auth().preemptive().basic("admin", "password123")
                 .contentType(ContentType.JSON).body(body.toString())
-                .put("https://restful-booker.herokuapp.com/booking/" + bookingId);
+                .put("/booking/" + bookingId);
 
         // Verify All fields
         int expected = 200;
