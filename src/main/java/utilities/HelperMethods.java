@@ -38,8 +38,8 @@ public class HelperMethods {
 
     @Before
     public void setUp() {
-        // We need to create Request Specification variable using Request Spec Builder
-        // to set up Base URI in order to avoid redundancy and improve re-usability.
+        // We create Request Specification variable using Request Spec Builder
+        // to set up Base URI in order to avoid code redundancy and improve code re-usability.
         rs = new RequestSpecBuilder().
                 setBaseUri("https://restful-booker.herokuapp.com").build();
     }
