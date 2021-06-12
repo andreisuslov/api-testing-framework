@@ -17,12 +17,13 @@ Rest Assured is one of the many Java HTTP clients. It provides us with **BDD syn
 /booking/{bookingID}?firstname=Andrei
 ```
 
-##How to get headers?
+## Headers
+How to get headers?
 ```
 Headers headers = response.getHeaders();
         System.out.println("Headers: " + headers);
 ```
-##How to get a single header?
+How to get a single header?
 
 We can get a single header's value using 2 ways:
 
@@ -39,7 +40,8 @@ Header someHeader = new Header("some_name", "some_value");
         rs.header(someHeader);
 ```
 	
-## How to get cookies?
+## Cookies
+How to get cookies?
  ```
  Cookies cookies = response.getDetailedCookies();
         System.out.println("Cookies: " + cookies); // prints no cookies in the first place
@@ -52,7 +54,7 @@ Cookie someCookie = new Cookie.Builder("some_name", "some_value").build();
         rs.cookie(someCookie);
 ```
 
-if you want to make sure that you've added all cookies and headers, add `.log().all()` methods into your code:
+If you want to make sure that you've added all cookies and headers, use `.log().all()` syntax:
 
 ```
 Response response = RestAssured.given(rs).

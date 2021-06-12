@@ -48,8 +48,8 @@ public class HealthCheckTest extends HelperMethods {
         // if you want to make sure that you've added all cookies and headers,
         // add .log().all() after .cookie().header() and before .get() methods.
         Response response = RestAssured.given(rs).
-                cookie("some_cookie_name", "some_cookie_value").
-                header("some_header_name", "some_header_value").
+//                cookie("some_cookie_name", "some_cookie_value").
+//                header("some_header_name", "some_header_value").
                 log().all().
                 get("/ping");
 
