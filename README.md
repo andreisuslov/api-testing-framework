@@ -5,6 +5,7 @@
 
 # Rest Assured Automation with Restful Booker App
 
+## What is Rest Assured?
 Rest Assured is one of the many Java HTTP clients. It provides us with **BDD syntax:** **given** (headers), **when** (endpoint, HTTP method type,  body), **then** (validate the response code and body). Using this library, we can perform automation of `get`, `post`, `put`, `patch`, and `delete` request methods.
 
 ##Path vs Query parameters
@@ -101,7 +102,7 @@ then().
     response.prettyPrint();
 ```
 
-3. Do validations and assertions. For that purpose, I use Junit Assertions. And because we are using JSON format, use `.jsonPath()` method to get values from the response. Inside that method there are different other methods to get different values, such as: `.getString*()`, `.getList()`, `.getBoolean()`, `.getInt()`. 
+3. Do validations and assertions. For that purpose, I use Junit Assertions. And because we are using JSON format, use `.jsonPath()` method to get values from the response. Inside that method there are different other methods to get different values, such as: `.getString()`, `.getList()`, `.getBoolean()`, `.getInt()`. 
 
 ```
 String actualFirstName = response.jsonPath().getString("firstname");
