@@ -23,6 +23,8 @@ Using this library, we can perform automation of CRUD:
 
 `delete` request methods.
 
+This framework is created from scratch.
+
 
 ## CRUD Operations
 ### **Automating GET (Read)**
