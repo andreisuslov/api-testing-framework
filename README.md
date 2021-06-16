@@ -348,7 +348,7 @@ We can get a single header's value using 2 ways:
      System.out.println("Server: " + serverHeader2); 
      ```
 
-We can also add a header using this syntax:
+We can also inject a header using this syntax:
 
 ```
 Header someHeader = new Header("some_name", "some_value");
@@ -363,7 +363,7 @@ How to get cookies?
  System.out.println("Cookies: " + cookies); // prints no cookies in the first place
 ```
 
-We can also add a cookie using this syntax:
+We can also inject a cookie using this syntax:
 
 ```
 Cookie someCookie = new Cookie.Builder("some_name", "some_value").build();
