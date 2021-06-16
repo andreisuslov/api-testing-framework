@@ -10,7 +10,7 @@ Rest Assured is one of the many Java HTTP clients.
 It provides us with **BDD syntax:** **given** (headers), 
 **when** (endpoint, HTTP method type,  body), 
 **then** (validate the response code and body). 
-Using this library, we can perform automation of 
+Using this library, we can perform automation of CRUD:
 
 `get`, 
 
@@ -23,6 +23,7 @@ Using this library, we can perform automation of
 `delete` request methods.
 
 ##Path vs Query parameters
+
 **Path parameters** are used to identify a specific entity.
 ```
 /booking/{bookingID}
