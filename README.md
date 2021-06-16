@@ -22,7 +22,7 @@ Using this library, we can perform automation of CRUD:
 
 `delete` request methods.
 
-##Path vs Query parameters
+## Path vs Query parameters
 
 **Path parameters** are used to identify a specific entity.
 ```
