@@ -11,6 +11,10 @@ Rest Assured is one of the many Java HTTP clients.
 It provides us with **BDD syntax:** **given** (headers), 
 **when** (endpoint, HTTP method type,  body), 
 **then** (validate the response code and body). 
+
+![Rest Assured Given-When-Then](https://user-images.githubusercontent.com/54606026/122264670-caaa0d80-cea5-11eb-8457-bc6f6332b8a1.png)
+
+
 Using this library, we can perform automation of CRUD:
 
 `get`, 
