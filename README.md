@@ -6,10 +6,24 @@
 # Rest Assured Automation with Restful Booker App
 
 ## What is Rest Assured?
-Rest Assured is one of the many Java HTTP clients. It provides us with **BDD syntax:** **given** (headers), **when** (endpoint, HTTP method type,  body), **then** (validate the response code and body). Using this library, we can perform automation of `get`, `post`, `put`, `patch`, and `delete` request methods.
+Rest Assured is one of the many Java HTTP clients. 
+It provides us with **BDD syntax:** **given** (headers), 
+**when** (endpoint, HTTP method type,  body), 
+**then** (validate the response code and body). 
+Using this library, we can perform automation of 
+
+`get`, 
+
+`post`, 
+
+`put`, 
+
+`patch`, and 
+
+`delete` request methods.
 
 ##Path vs Query parameters
-**Path parameters** are used to identify a specific resource.
+**Path parameters** are used to identify a specific entity.
 ```
 /booking/{bookingID}
 ```
@@ -63,8 +77,80 @@ Response response = RestAssured.given(rs).
                 get("/ping");
 ```
 
+## (De)serialization
+### Serialization
+POJO – Plain Old Java Objects.
+We will use Jackson Databind dependency for serialization purposes:
+```
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.10.1</version>
+</dependency>
+```
+Also, you can use GSON dependency as an alternative.
 
-## **Automating GET**
+We'll need to create a POJO classes to represent JSON body,
+so for this object (which I copied from the documentation)
+```
+curl -X POST \
+  https://restful-booker.herokuapp.com/booking \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "firstname" : "Jim",
+    "lastname" : "Brown",
+    "totalprice" : 111,
+    "depositpaid" : true,
+    "bookingdates" : {
+        "checkin" : "2018-01-01",
+        "checkout" : "2019-01-01"
+    },
+    "additionalneeds" : "Breakfast"
+}'
+```
+You need to create two separate classes, 
+as we have one JSON object - `bookingdates` - embedded into another one.
+```
+public class Booking {
+    private String firstname;
+    private String lastname;
+    private int totalprice;
+    private boolean depositpaid;
+    private BookingDates bookingdates; // a separate JSON object
+    private String additionalneeds;
+}
+```
+
+When creating such a class, you need to make sure that you have an exact
+match of the instance variables' names and of the field of JSON-body.
+
+As you can see, `"firstname" : "Jim"` becomes `private String firstname;`, omitting Java
+naming conventions.
+
+Then, in a `CreateBookingTests` class, create another method 
+`createBookingWithPojoTest()` to practice serialization. Inside,
+we can create a JSON-body using POJO's.
+First, we need to create an instance of `BookingDates` class, 
+and we can assign there the values to the dates. Then, we did the same
+for the instance of `Booking` class.
+
+```
+BookingDates bookingdates = new BookingDates("2021-06-03", "2021-06-10");
+Booking booking = new Booking(
+        "Andrei",
+        "Suslov",
+        150,
+        false,
+        bookingdates,
+        "Swimming Pool");
+```
+
+### Deserialization
+
+
+
+## CRUD Operations
+### **Automating GET (Read)**
 In my API testing approach, I perform the following steps:
 
 1. Get the response.
@@ -113,7 +199,7 @@ assertEquals(expectedFirstName, actualFirstName,
 + ", and it's supposed to be " + expectedFirstName);
 ```
 
-## **Automating POST**
+### **Automating POST (Create)**
 We need to have a JSON body to submit it to a certain endpoint:
 
 1. Create JSON body:
@@ -173,8 +259,20 @@ assertEquals(expectedFirstName, actualFirstName,
 + ", and it's supposed to be " + expectedFirstName);
 ```
 
-## **Automating PUT**
-`PUT` method is used to update the existing resource. It does not update just some fields in existing resources, it updates the full resource, so basically `PUT` means **replace**. It is similar to the `POST` method as it requires the request body with all fields. The difference is the ID in the URL and the need for authentication.
+### **Automating PUT (Update)**
+`PUT` method is considered _idempotent_. 
+
+**Why is so?** If you issue the same request repeatedly, 
+it should always have the same outcome 
+(the data you sent is now replaces the entire data of the entity).
+
+`PUT` method is used to update the existing resource. 
+It does not update just some fields in existing resources, 
+it updates the full resource, so basically `PUT` means **replace**. 
+It is similar to the `POST` method as it requires the request 
+body with all fields (parameters) because you're replacing **the entire entity**.
+When using PUT, it is assumed that you are sending the complete entity, 
+and that complete entity replaces any existing entity at that URI.
 
 1. Create JSON body:
 ```
@@ -251,9 +349,26 @@ Assertions.assertEquals(expectedLastName, actualLastName,
 ```
 
 
-## **Automating PATCH**
-The `PATCH` method is used to update an object partially.
+### **Automating PATCH (Update Partially)**
+`PATCH` isn't idempotent.
 
+**Why is so?** Suppose you patch not a specific endpoint's entity 
+(ex.: `/users/{id}`) but the whole resource (ex.: `/users`).
+In this case, once we issue the exact same PATCH request _twice_,
+we will get a duplicate entity in our endpoint.
+
+**BUT**: All this comes down to how a server is designed to handle requests.
+If the server allows patching the whole endpoint/resource rather than a particular
+entity (ex.: `/users/{id}`) and if that endpoint/resource (ex.: `/users`) allows duplicate usernames,
+then `PATCH` request is not idempotent.
+
+
+
+The `PATCH` method is used to **update** an object partially, 
+it "updates a current booking with a partial payload" as it's stated in
+herokuapp documentation. 
+
+### Automation steps of issuing a `PATCH` request
 1. Create JSON body.
 2. Update the data partially.
 ```
@@ -294,7 +409,7 @@ Assertions.assertEquals(expectedCheckIn, actualCheckIn,
 "Checkin-in date in response is not expected");
 ```
 
-## **Automating DELETE**
+### **Automating DELETE**
 1. Create JSON body.
 2. Get ID of the created JSON object.
 ```
@@ -326,3 +441,4 @@ responseGet.print(); // prints Created
 Assertions.assertEquals("Not Found", responseGet.getBody().asString(), 
 "Body should be 'Not Found', but it's not.");
 ```
+
