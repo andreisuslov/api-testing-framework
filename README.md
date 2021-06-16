@@ -426,8 +426,8 @@ public class Booking {
 When creating such a class, you need to make sure that you have an exact
 match of the instance variables' names and of the field of JSON-body.
 
-As you can see, `"firstname" : "Jim"` becomes `private String firstname;`, omitting Java
-naming conventions.
+As you can see, `"firstname" : "Jim"` becomes `private String firstname;`, 
+omitting Java naming conventions.
 
 Then, in a `CreateBookingTests` class, create another method
 `createBookingWithPojoTest()` to practice serialization. Inside,
@@ -449,3 +449,23 @@ Booking booking = new Booking (
 ```
 
 ### Deserialization
+
+Using this syntax, 
+```
+BookingId bookingid = response.as(BookingId.class);
+```
+we are saying to RestAssured to use the `BookingId` class
+and convert the response body as the class. 
+We have to have all
+the getters and setters 
+(I created them using `@Data` lombok annotation above the POJO-class declaration) 
+and constructor created
+to completely match what is going to be inside the `BookingId`.
+
+Then, instead of doing all the verifications, we can just compare 
+our `booking`'s using static JUnit `assertEquals` method. So we assert 
+that the expected `booking` JSON-body from the request is matching `bookingid` that
+we got from the response:
+```
+assertEquals(booking.toString(), bookingid.getBooking().toString());
+```
