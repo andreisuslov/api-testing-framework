@@ -439,7 +439,7 @@ for the instance of `Booking` class.
 ```
 BookingDates bookingdates = new BookingDates(
                     "2021-06-03", "2021-06-10");
-Booking booking = new Booking(
+Booking booking = new Booking (
                     "Andrei",
                     "Suslov",
                     150,
