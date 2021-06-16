@@ -1,4 +1,6 @@
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)] [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)]
+![alt text](https://forthebadge.com/images/badges/built-with-love.svg) 
+
+![alt text](https://forthebadge.com/images/badges/made-with-java.svg)
 
 # API-testing-restful-booker-rest-assured
 
@@ -20,133 +22,6 @@ Using this library, we can perform automation of CRUD:
 `patch`, and 
 
 `delete` request methods.
-
-## Path vs Query parameters
-
-**Path parameters** are used to identify a specific entity.
-```
-/booking/{bookingID}
-```
-**Query parameters** are used to filter that specific resource.
-```
-/booking/{bookingID}?firstname=Andrei
-```
-
-## Headers
-How to get headers?
-```
-Headers headers = response.getHeaders();
-        System.out.println("Headers: " + headers);
-```
-How to get a single header?
-
-We can get a single header's value using 2 ways:
-
-1. ``` Header serverHeader1 = headers.get("Server");
-        System.out.println(serverHeader1.getName() + ":" + serverHeader1.getValue()); ```
-	
-2.   ``` String serverHeader2 = response.getHeader("Server");
-        System.out.println("Server: " + serverHeader2); ```
-	
-We can also add a header:
-
-```
-Header someHeader = new Header("some_name", "some_value");
-        rs.header(someHeader);
-```
-	
-## Cookies
-How to get cookies?
- ```
- Cookies cookies = response.getDetailedCookies();
-        System.out.println("Cookies: " + cookies); // prints no cookies in the first place
-```
-
-We can also add a cookie:
-
-```
-Cookie someCookie = new Cookie.Builder("some_name", "some_value").build();
-        rs.cookie(someCookie);
-```
-
-If you want to make sure that you've added all cookies and headers, use `.log().all()` syntax:
-
-```
-Response response = RestAssured.given(rs).
-                log().all().
-                get("/ping");
-```
-
-## (De)serialization
-### Serialization
-POJO – Plain Old Java Objects.
-We will use Jackson Databind dependency for serialization purposes:
-```
-<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>2.10.1</version>
-</dependency>
-```
-Also, you can use GSON dependency as an alternative.
-
-We'll need to create a POJO classes to represent JSON body,
-so for this object (which I copied from the documentation)
-```
-curl -X POST \
-  https://restful-booker.herokuapp.com/booking \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "firstname" : "Jim",
-    "lastname" : "Brown",
-    "totalprice" : 111,
-    "depositpaid" : true,
-    "bookingdates" : {
-        "checkin" : "2018-01-01",
-        "checkout" : "2019-01-01"
-    },
-    "additionalneeds" : "Breakfast"
-}'
-```
-You need to create two separate classes, 
-as we have one JSON object - `bookingdates` - embedded into another one.
-```
-public class Booking {
-    private String firstname;
-    private String lastname;
-    private int totalprice;
-    private boolean depositpaid;
-    private BookingDates bookingdates; // a separate JSON object
-    private String additionalneeds;
-}
-```
-
-When creating such a class, you need to make sure that you have an exact
-match of the instance variables' names and of the field of JSON-body.
-
-As you can see, `"firstname" : "Jim"` becomes `private String firstname;`, omitting Java
-naming conventions.
-
-Then, in a `CreateBookingTests` class, create another method 
-`createBookingWithPojoTest()` to practice serialization. Inside,
-we can create a JSON-body using POJO's.
-First, we need to create an instance of `BookingDates` class, 
-and we can assign there the values to the dates. Then, we did the same
-for the instance of `Booking` class.
-
-```
-BookingDates bookingdates = new BookingDates("2021-06-03", "2021-06-10");
-Booking booking = new Booking(
-        "Andrei",
-        "Suslov",
-        150,
-        false,
-        bookingdates,
-        "Swimming Pool");
-```
-
-### Deserialization
-
 
 
 ## CRUD Operations
@@ -442,3 +317,135 @@ Assertions.assertEquals("Not Found", responseGet.getBody().asString(),
 "Body should be 'Not Found', but it's not.");
 ```
 
+## Path vs Query parameters
+
+**Path parameters** are used to identify a specific entity.
+```
+/booking/{bookingID}
+```
+**Query parameters** are used to filter that specific resource.
+```
+/booking/{bookingID}?firstname=Andrei
+```
+
+## Headers
+How to get headers?
+```
+Headers headers = response.getHeaders();
+System.out.println("Headers: " + headers);
+```
+How to get a single header?
+
+We can get a single header's value using 2 ways:
+
+1. ``` 
+   Header serverHeader1 = headers.get("Server"); 
+   System.out.println(serverHeader1.getName() + ":" + serverHeader1.getValue()); 
+    ```
+
+2.   ``` 
+     String serverHeader2 = response.getHeader("Server");
+     System.out.println("Server: " + serverHeader2); 
+     ```
+
+We can also add a header using this syntax:
+
+```
+Header someHeader = new Header("some_name", "some_value");
+
+rs.header(someHeader);
+```
+
+## Cookies
+How to get cookies?
+ ```
+ Cookies cookies = response.getDetailedCookies();
+ System.out.println("Cookies: " + cookies); // prints no cookies in the first place
+```
+
+We can also add a cookie using this syntax:
+
+```
+Cookie someCookie = new Cookie.Builder("some_name", "some_value").build();
+
+rs.cookie(someCookie);
+```
+
+If you want to make sure that you've added all cookies and headers, use `.log().all()` syntax:
+
+```
+Response response = RestAssured.given(rs).
+                                log().all().
+                                get("/ping");
+```
+
+## (De)serialization
+### Serialization
+POJO – Plain Old Java Objects.
+We will use Jackson Databind dependency for serialization purposes:
+```
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.10.1</version>
+</dependency>
+```
+Also, you can use GSON dependency as an alternative.
+
+We'll need to create a POJO classes to represent JSON body,
+so for this object (which I copied from the documentation)
+```
+curl -X POST \
+  https://restful-booker.herokuapp.com/booking \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "firstname" : "Jim",
+    "lastname" : "Brown",
+    "totalprice" : 111,
+    "depositpaid" : true,
+    "bookingdates" : {
+        "checkin" : "2018-01-01",
+        "checkout" : "2019-01-01"
+    },
+    "additionalneeds" : "Breakfast"
+}'
+```
+You need to create two separate classes,
+as we have one JSON object - `bookingdates` - embedded into another one.
+```
+public class Booking {
+    private String firstname;
+    private String lastname;
+    private int totalprice;
+    private boolean depositpaid;
+    private BookingDates bookingdates; // a separate JSON object
+    private String additionalneeds;
+}
+```
+
+When creating such a class, you need to make sure that you have an exact
+match of the instance variables' names and of the field of JSON-body.
+
+As you can see, `"firstname" : "Jim"` becomes `private String firstname;`, omitting Java
+naming conventions.
+
+Then, in a `CreateBookingTests` class, create another method
+`createBookingWithPojoTest()` to practice serialization. Inside,
+we can create a JSON-body using POJO's.
+First, we need to create an instance of `BookingDates` class,
+and we can assign there the values to the dates. Then, we did the same
+for the instance of `Booking` class.
+
+```
+BookingDates bookingdates = new BookingDates(
+                    "2021-06-03", "2021-06-10");
+Booking booking = new Booking(
+                    "Andrei",
+                    "Suslov",
+                    150,
+                    false,
+                    bookingdates,
+                    "Swimming Pool");
+```
+
+### Deserialization
